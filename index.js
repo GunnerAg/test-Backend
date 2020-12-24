@@ -1,8 +1,6 @@
 const fs = require('fs');
 const parse = require('csv-parse');
-const { Console, group } = require('console');
-const { sign } = require('crypto');
-const { type } = require('os');
+
 //------------- en el dato del valor del coche, creo que hay un error, ya que figura un valor de 21 millones de euros la unidad, lo cambio a 21 mil euros, lo cual veo mas razonable------//
 //--------------------arrays definidas como variables globales, las utilizo para el calculo de los resultados finales-----------------//
 let resultArr=[];
@@ -40,17 +38,15 @@ let categorieObject = arrOfObjects[0]
 //---------esta función acepta los argumentos necesarios de los articulos de la lista de ventas para calcular los resultados---------//
 
 function calculatePrice(category , cost, quantity){
-    // console.log(categorieObject[category] || categorieObject['*'])
     let str = categorieObject[category] || categorieObject['*']
     let indPerc = str.indexOf('%');
     let indEur = str.indexOf('€');
     let calculate={ '+':function (a,b){return a+b }, '-': function(a,b){return a-b}};
     let quant=(quantity.replace('.',','));
     let quantityFormated =parseFloat(quant.replace(/,/g, ''))
-    let costFormated;
     let cos;
     cost.includes(',' && '.')? cos=cost.replace(',','.').replace('.',','):cos=cost.replace(',','.')
-    costFormated=parseFloat(cos.replace(/,/g, ''))
+    let costFormated=parseFloat(cos.replace(/,/g, ''))
     let totalAmnt = (quantityFormated)*(costFormated)
 
     //------------ evalúo todos los posibles formatos para aplicar correctamente los valores -------------------//
