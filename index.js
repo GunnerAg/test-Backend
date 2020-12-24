@@ -3,7 +3,7 @@ const parse = require('csv-parse');
 const { Console, group } = require('console');
 const { sign } = require('crypto');
 const { type } = require('os');
-
+//------------- en el dato del valor del coche, creo que hay un error, ya que figura un valor de 21 millones de euros la unidad, lo cambio a 21 mil euros, lo cual veo mas razonable------//
 //--------------------arrays definidas como variables globales, las utilizo para el calculo de los resultados finales-----------------//
 let resultArr=[];
 let resultGrouped=[];
@@ -45,7 +45,13 @@ function calculatePrice(category , cost, quantity){
     let indPerc = str.indexOf('%');
     let indEur = str.indexOf('€');
     let calculate={ '+':function (a,b){return a+b }, '-': function(a,b){return a-b}};
-    let totalAmnt = parseInt(quantity)*parseFloat(cost.replace(',','.'))
+    let quant=(quantity.replace('.',','));
+    let quantityFormated =parseFloat(quant.replace(/,/g, ''))
+    let costFormated;
+    let cos;
+    cost.includes(',' && '.')? cos=cost.replace(',','.').replace('.',','):cos=cost.replace(',','.')
+    costFormated=parseFloat(cos.replace(/,/g, ''))
+    let totalAmnt = (quantityFormated)*(costFormated)
 
     //------------ evalúo todos los posibles formatos para aplicar correctamente los valores -------------------//
     //------------- se puede refactorizar usando ternary operators encadenados, pero seria mas complicado de leer y la performance seria similar------------//
@@ -61,8 +67,8 @@ function calculatePrice(category , cost, quantity){
             let secondSign = str.slice(indPerc+1, indPerc+2)
             let absVal= str.slice(indPerc+2,indEur)
             let perVal= str.slice(1,indPerc)
-            let res1 = calculate[firstSign](totalAmnt,totalAmnt*perVal/100)
-            let res2 = calculate[secondSign](res1,parseFloat(absVal))
+            let res1 = (totalAmnt*(perVal/100))
+            let res2 = calculate[secondSign](res1,parseFloat(absVal)*quantity)
             return res2
         }
 
@@ -73,7 +79,7 @@ function calculatePrice(category , cost, quantity){
             let secondSign = str.slice(indEur+1, indEur+2)
             let absVal= str.slice(1,indEur) 
             let perVal= str.slice(indEur+2,indPerc)
-            let res1 = calculate[firstSign](totalAmnt,parseFloat(absVal))
+            let res1 = calculate[firstSign](totalAmnt,parseFloat(absVal)*quantity)
             let res2 = calculate[secondSign](res1,res1*perVal/100)
             return res2
         }
@@ -84,8 +90,7 @@ function calculatePrice(category , cost, quantity){
         if(str.includes('%')){
             
             let perVal = str.slice(1,indPerc)
-            let sign = str.slice(0,1);
-            let res = calculate[sign](totalAmnt,totalAmnt*perVal/100)
+            let res = totalAmnt*(perVal/100)
             return res
 
         }
@@ -94,7 +99,7 @@ function calculatePrice(category , cost, quantity){
             
             let absVal = str.slice(1,indEur);
             let sign = str.slice(0,1);
-            let res = calculate[sign](totalAmnt,parseFloat(absVal))
+            let res = (parseFloat(absVal)*quantity)
             return res
         }
     }
