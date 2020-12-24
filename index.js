@@ -7,7 +7,7 @@ let resultArr=[];
 let resultGrouped=[];
 
 process.argv[2] ===undefined && process.argv[3] ===undefined ? 
-console.log('-Asegurate de que los archivos especificados existen y se encuentran en el directorio "dataset"','\n','Para ejecutar este archivo con Node debes especificar el nombre de los archivos de ventas y precios, Por ejemplo : node index.js Ventas, precios')
+console.log('Asegurate de que los archivos especificados existen y se encuentran en el directorio "dataset"','\n','Para ejecutar este archivo con Node debes especificar el nombre de los archivos de ventas y precios, Por ejemplo : node index.js Ventas precios')
 : executeScript ()
 
 //-------------- una funcion que contiene todo el codigo a ejecutar en caso de que los parametros necesarios se pasen en la consola de comandos, esto tambien ayuda a integrar el codigo de manera sencilla en otro archivo------------//
