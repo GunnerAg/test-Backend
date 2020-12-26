@@ -6,7 +6,7 @@ const parse = require('csv-parse');
 let resultArr=[];
 let resultGrouped=[];
 
-process.argv[2] ===undefined && process.argv[3] ===undefined ? 
+process.argv[2] ===undefined || process.argv[3] ===undefined ? 
 console.log('Asegurate de que los archivos especificados existen y se encuentran en el directorio "dataset"','\n','Para ejecutar este archivo con Node debes especificar el nombre de los archivos de ventas y precios, Por ejemplo : node index.js Ventas precios')
 : executeScript ()
 
